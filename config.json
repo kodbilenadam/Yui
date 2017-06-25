@@ -1,0 +1,10 @@
+{
+  "prefix" : ".",
+  "token" : "your_token_here",
+  "api" : "riot_api",
+  "api2" : "riot_api",
+  "api3" : "riot_api",
+  "api4" : "riot_api",
+  "fathersID" : "my_discord_id",
+  "selfrID" : "my_servers_id"
+}
