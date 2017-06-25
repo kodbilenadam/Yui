@@ -60,7 +60,7 @@ bot.on('message', (message) => { // Fired when message sent
   }
   if (bot.uptime/1000 - timeout < 2) return;
   if (message.channel.type == "dm") {
-    if(message.author.id !== config.fathersID) return; // Only responding to my creators commands.
+    if(message.author.id !== config.fathersID) return; // Only responding to my (creators) commands.
   }
   timeout = bot.uptime/1000;
 
@@ -81,13 +81,13 @@ bot.on('message', (message) => { // Fired when message sent
   }
 });
 
-var userCommands = [".avatar <@Kişi>", ".benitekmele", ".hizmetsuresi", ".temizle", ".sec <secim1>, <secim2>...", ".zarat <sayi>"];
+var userCommands = [".avatar <@Kişi>", ".benitekmele", ".hizmetsuresi", ".temizle", ".sec <secim1>, <secim2>...", ".zarat <sayi>", ".oyun <summonerid>", ".sihirdar <summonerid>"];
 
 bot.on('message', (message) => { // Commands and functions
   if(message.author.bot) return;
   if(!message.content.startsWith(prefix)) return;
   if(message.channel.type == "dm") {
-    if(message.author.id !== config.fathersID) return; // Only responding to my creators commands.
+    if(message.author.id !== config.fathersID) return; // Only responding to my (creators) commands.
   }
 
   let command = message.content.split(" ")[0]; // Splitting the message with empty space and getting the first element.
@@ -160,7 +160,7 @@ bot.on('message', (message) => { // Commands and functions
         id = body.id;
         var ranks = new Object();
         message.channel.sendMessage(`Kullanıcı Kimliği: \`\`${id}\`\``);
-        getLolRanks(id, message); // Writes ranked informations to channel
+        getLolRanks(id, message); // Writes ranked informations to the channel
       }
       else if (response.statusCode === 404) {
         message.channel.sendMessage('Aradığınız kişi bulunamadı :frowning:');
@@ -187,7 +187,7 @@ bot.on('message', (message) => { // Commands and functions
     });
 }
 
-  if(command === "hizmetsuresi") { // To learn uptime
+  if(command === "hizmetsuresi") { // To learn the uptime
     message.channel.sendMessage('Hizmet verdiğim süre: **' + bot.uptime/1000 + '** saniye');
   }
 
@@ -241,7 +241,7 @@ bot.on('message', (message) => { // Commands and functions
   if(command === "gel") {
     if(message.author.id !== "115464605676863492") return;
     if (message.channel.type == "dm") return message.author.sendMessage("Buradan beni cagiramazsın.");
-    let VoiceC = message.member.voiceChannel; // Getting members voiceChannel
+    let VoiceC = message.member.voiceChannel; // Getting member's voiceChannel
     if (!VoiceC || VoiceC.type !== "voice") {
       return message.reply("İstemiyorum.").catch(e => message.channel.sendMessage(e));
     } else if (message.guild.voiceConnection) {
@@ -268,7 +268,7 @@ bot.on('message', (message) => { // Commands and functions
       VoiceC.leave();
   }
   if (command === 'replikekle') {
-    if (message.author.id !== config.fathersID) return; // Only responding to my creators commands.
+    if (message.author.id !== config.fathersID) return; // Only responding to my (creators) commands.
     let soyleyen = args[0];
     let replik = "";
     let tarih = message.createdAt.getDate() + "." + (message.createdAt.getMonth()+1) + "." + message.createdAt.getFullYear() + " " + message.createdAt.getHours() + ":" + message.createdAt.getMinutes();
@@ -318,12 +318,12 @@ bot.on('message', (message) => { // Commands and functions
       }
     });
   }
-  // KOMUTLARIN SONU ARAYÜZÜ İÇERİYE ALMADIM
+  // KOMUTLARIN SONU ARAYÜZÜ İÇERİYE ALMADIM 
   // Don't mind this comments
   // KULLANICI KOMUTLARI: .avatar .benitekmele .hizmetsuresi .temizle .sec .zarat
 
   if(command === 'arayuz') { // Eval function.
-    if(message.author.id !== config.fathersID) return; // Only responding to my creators commands. 
+    if(message.author.id !== config.fathersID) return; // Only responding to my (creators) commands. 
     try {
       var code = args.join(" ");
       var evaled = eval(code);
@@ -352,7 +352,7 @@ bot.on('guildMemberAdd', (member) => {
 
 bot.on('voiceStateUpdate', (oldMember, newMember) => {
   if (!takip) return;
-  if (oldMember.id !== "115464605676863492") return; // Only responding to my creators commands.
+  if (oldMember.id !== "115464605676863492") return; // Only responding to my (creators) commands.
   let streamOptions = { seek: 0, volume: 8 };
   if (newMember.voiceChannel && !oldMember.voiceChannel) {
     let voiceC = newMember.voiceChannel;
@@ -388,7 +388,7 @@ function clean(text) {
 
 function addStringData(path, data) {
   fs.appendFile(path, `\n${data}`, 'utf8', (err) => {
-    if (err) {  // I made it but didn't use even once. I used startDataStream function()
+    if (err) {  // I made it but didn't use even once. I used function startDataStream()
       console.log(err);
     }
   });
@@ -602,4 +602,4 @@ function time(message) {
   return time;
 }
 
-bot.login(config.token); // This is the way how I login O.O
+bot.login(config.token); // This is the way how Yui logins O.O
