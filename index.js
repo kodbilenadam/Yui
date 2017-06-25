@@ -6,7 +6,7 @@ var request = require('request');
 const config = require('./config.json');
 const chalk = require('chalk');
 const erroR = chalk.red.bold;
-const greetings = chalk.blue;
+const greetings = chalk.cyan.bold;
 const warning = chalk.yellow;
 const fs = require('fs');
 
@@ -32,7 +32,23 @@ bot.on('ready', () => {
 });
 
 bot.on('message', (message) => { // Fired when message sent
-  startDataStream('./logs/chat.txt', `(${message.createdAt.getDate()}-${message.createdAt.getMonth()+1}-${message.createdAt.getFullYear()} ${message.createdAt.getHours()}:${message.createdAt.getMinutes()}:${message.createdAt.getSeconds()}) ${message.author.username}: ${message.content}`);
+  if(message.attachments.firstKey() && message.channel.type == 'text') { // If there is any attachments at message, logging its url and name
+    let key = message.attachments.firstKey();
+    let attachment = message.attachments.get(key);
+    startDataStream('./logs/chat.txt', `${time(message)} (#${message.channel.name}) ${message.author.username}: ${message.content} <(${attachment.filename}) ${attachment.url}>`);
+  } else if (!message.attachments.firstKey() && message.channel.type == 'text') {
+    startDataStream('./logs/chat.txt', `${time(message)} (#${message.channel.name}) ${message.author.username}: ${message.content}`);
+  } else if (message.attachments.firstKey() && message.channel.type == 'dm') {
+    let key = message.attachments.firstKey();
+    let attachment = message.attachments.get(key);
+    startDataStream('./logs/dmchat.txt', `${time(message)} ${message.author.username}: ${message.content} <(${attachment.filename}) ${attachment.url}>`);
+  } else if (!message.attachments.firstKey() && message.channel.type == 'dm') {
+    startDataStream('./logs/dmchat.txt', `${time(message)} ${message.author.username}: ${message.content}`);
+  } else {
+    console.log(erroR(time(message) + " Bir sorunla karşılaşıldı. Mesajlar chatloglara kayıt edilmedi."));
+    startDataStream('./logs/crash.txt', `${time(message)} ${message.author.username}: ${message.content} (ERROR DESU)`);
+  }
+  
   if(message.author.bot) return;
   let command = message.content;
   if(message.channel.type == "dm") {
