@@ -102,7 +102,7 @@ bot.on('message', (message) => { // Commands and functions
   }
   arg = arg.trim();
 
-  if(command === "dmgonder" && message.author.id == "115464605676863492") {
+  if(command === "dmgonder" && message.author.id == config.fathersID) {
     let messageMember;
     let msg = "";
     if(message.mentions.users.size == 0) {
@@ -239,7 +239,7 @@ bot.on('message', (message) => { // Commands and functions
   }
 
   if(command === "gel") {
-    if(message.author.id !== "115464605676863492") return;
+    if(message.author.id !== config.fathersID) return;
     if (message.channel.type == "dm") return message.author.sendMessage("Buradan beni cagiramazsın.");
     let VoiceC = message.member.voiceChannel; // Getting member's voiceChannel
     if (!VoiceC || VoiceC.type !== "voice") {
@@ -279,7 +279,7 @@ bot.on('message', (message) => { // Commands and functions
       replik += args[i+1] + " ";
     }
     replik = replik.trim();
-    fs.readFile('C:\\Users\\Ryuuken\\Desktop\\Discord Bot\\logs\\replikler.json', 'utf-8', function readFileCallBack(err,data) {
+    fs.readFile('./logs/replikler.json', 'utf-8', function readFileCallBack(err,data) {
       if (err){
         console.log(err);
       } else {
@@ -287,7 +287,7 @@ bot.on('message', (message) => { // Commands and functions
         if (obj.replikler.length > 1000) {message.channel.sendMessage("Daha fazla replik eklenemez."); return;}
         obj.replikler.push({numara: obj.replikler.length+1, replik: replik, soyleyen: soyleyen, tarih: tarih});
         let json = JSON.stringify(obj);
-        fs.writeFile('C:\\Users\\Ryuuken\\Desktop\\Discord Bot\\logs\\replikler.json', json , 'utf-8', function callback(err){if(err) {console.log(err)} else {
+        fs.writeFile('./logs/replikler.json', json , 'utf-8', function callback(err){if(err) {console.log(err)} else {
           message.channel.sendMessage("Replik eklendi!");
         }});
       }
@@ -298,7 +298,7 @@ bot.on('message', (message) => { // Commands and functions
     let obj = {
       replikler: []
     };
-    fs.readFile('C:\\Users\\Ryuuken\\Desktop\\Discord Bot\\logs\\replikler.json', 'utf-8', function readFileCallBack(err,data) {
+    fs.readFile('./logs/replikler.json', 'utf-8', function readFileCallBack(err,data) {
       if (err){
         console.log(err);
       } else {
@@ -352,7 +352,7 @@ bot.on('guildMemberAdd', (member) => {
 
 bot.on('voiceStateUpdate', (oldMember, newMember) => {
   if (!takip) return;
-  if (oldMember.id !== "115464605676863492") return; // Only responding to my (creators) commands.
+  if (oldMember.id !== config.fathersID) return; // Only responding to my (creators) commands.
   let streamOptions = { seek: 0, volume: 8 };
   if (newMember.voiceChannel && !oldMember.voiceChannel) {
     let voiceC = newMember.voiceChannel;
