@@ -58,30 +58,9 @@ bot.on('message', (message) => { // Fired when message sent
     }
     console.log(warning(time(message)) + ` ${message.author.username}: ${message.content}`);
   }
-  if (bot.uptime/1000 - timeout < 2) return;
-  if (message.channel.type == "dm") {
-    if(message.author.id !== config.fathersID) return; // Only responding to my (creators) commands.
-  }
-  timeout = bot.uptime/1000;
-
-  if(message.content.split(" ")[0] == "anan" || message.content.split(" ")[0] == "annen") {
-    if (message.author.username == "Natsu-san") return;
-    message.reply("Annem Asuna'dır.");
-  }
-
-  if(command == 'sa' || command == "selam" || message.content.split(" ")[0] == "selamun") {
-    //message.reply('as');
-    message.channel.sendMessage('Selam :slight_smile:');
-  }
-  if(command == 'eyw') {
-    message.channel.sendMessage('np ^^');
-  }
-  if(command == "hadi eyw" && message.author.username != "Natsu-san") {
-    message.channel.sendMessage('Ne dedin sen?! :angry:');
-  }
 });
 
-var userCommands = [".avatar <@Kişi>", ".benitekmele", ".hizmetsuresi", ".temizle", ".sec <secim1>, <secim2>...", ".zarat <sayi>", ".oyun <summonerid>", ".sihirdar <summonerid>"];
+var userCommands = [".avatar <@Kişi>", ".benitekmele", ".hizmetsuresi", ".temizle", ".sec <secim1>, <secim2>...", ".zarat <sayi>", ".oyun <summonername>", ".sihirdar <summonername>"];
 
 bot.on('message', (message) => { // Commands and functions
   if(message.author.bot) return;
@@ -386,14 +365,6 @@ function clean(text) {
     return text;
 }
 
-function addStringData(path, data) {
-  fs.appendFile(path, `\n${data}`, 'utf8', (err) => {
-    if (err) {  // I made it but didn't use even once. I used function startDataStream()
-      console.log(err);
-    }
-  });
-}
-
 function startDataStream(path, data) {
   let logger = fs.createWriteStream(path, {
     flags: 'a' // 'a' flag means adding to file.
@@ -524,9 +495,9 @@ var k = 0;
 function getRank(participants, message, flex, no, callback) // KDA and ranks informations are committing from here.
 {
   var url = `https://tr1.api.riotgames.com/lol/league/v3/positions/by-summoner/${participants.summonerId}?api_key=${config.api}`;
-  if (k > 6) {url = `https://tr1.api.riotgames.com/lol/league/v3/positions/by-summoner/${participants.summonerId}?api_key=${config.api2}`;}
+  if (k > 6) {url = `https://tr1.api.riotgames.com/lol/league/v3/positions/by-summoner/${participants.summonerId}?api_key=${config.api}`;}
   else {url = `https://tr1.api.riotgames.com/lol/league/v3/positions/by-summoner/${participants.summonerId}?api_key=${config.api}`;}
-  let kdrURL = `https://tr.api.riotgames.com/api/lol/TR/v1.3/stats/by-summoner/${participants.summonerId}/ranked?api_key=${config.api4}`;
+  let kdrURL = `https://tr.api.riotgames.com/api/lol/TR/v1.3/stats/by-summoner/${participants.summonerId}/ranked?api_key=${config.api}`;
   // 11015761
 
   k += 1;
@@ -551,7 +522,7 @@ function getRank(participants, message, flex, no, callback) // KDA and ranks inf
       if (data.length == 0) { rank = `  \`\`T/Ç: Bilinmiyor\`\`   \`\`E: Bilinmiyor\`\``; }
       //return callback(rank, no, 'Zed'); That was a test command :c
 
-        var url2 = `https://global.api.riotgames.com/api/lol/static-data/TR/v1.2/champion/${participants.championId}?api_key=${config.api3}`;
+        var url2 = `https://global.api.riotgames.com/api/lol/static-data/TR/v1.2/champion/${participants.championId}?api_key=${config.api}`;
         var champion = new Object();
         var array;
         var newStats = new Object();
